@@ -15,6 +15,17 @@ router.post('/',
     body('title').notEmpty().withMessage('Title is required'),
     body('priority').optional().isIn(['Low', 'Medium', 'High']).withMessage('Invalid priority'),
     body('status').optional().isIn(['To Do', 'In Progress', 'Completed']).withMessage('Invalid status'),
+    body('dueDate').optional().custom((value) => {
+      if (value) {
+        const due = new Date(value);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        if (due < today) {
+          throw new Error('Due date cannot be in the past');
+        }
+      }
+      return true;
+    }),
     validate,
   ],
   createTask

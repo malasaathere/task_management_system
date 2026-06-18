@@ -7,7 +7,7 @@ const sequelize = new Sequelize(
   process.env.DB_PASSWORD,
   {
     host: process.env.DB_HOST,
-    port: process.env.DB_PORT || 3306,
+    port: process.env.DB_PORT || 3307,
     dialect: 'mysql',
     logging: process.env.NODE_ENV === 'development' ? console.log : false,
     pool: {
@@ -24,12 +24,19 @@ const connectDB = async () => {
     await sequelize.authenticate();
     console.log('✅ MySQL connected successfully');
     // Sync all models (creates tables if they don't exist)
-    await sequelize.sync({ alter: true });
-    console.log('✅ Database synced');
-  } catch (error) {
-    console.error('❌ Database connection failed:', error.message);
+const isTest = process.env.NODE_ENV === 'test';
+
+await sequelize.sync({
+  force: isTest ? true : false, alter: false
+});    console.log('✅ Database synced');
+  }catch (error) {
+  console.error('❌ Database connection failed:', error.message);
+
+  // Don't crash Jest tests
+  if (process.env.NODE_ENV !== 'test') {
     process.exit(1);
   }
-};
 
+  throw error;
+}};
 module.exports = { sequelize, connectDB };

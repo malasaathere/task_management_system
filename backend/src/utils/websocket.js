@@ -44,7 +44,7 @@ const initWebSocket = (server) => {
   });
 
   // Keep-alive interval
-  setInterval(() => {
+  const keepAliveInterval = setInterval(() => {
     wss.clients.forEach((ws) => {
       if (!ws.isAlive) return ws.terminate();
       ws.isAlive = false;
@@ -72,4 +72,15 @@ const broadcast = (payload) => {
   });
 };
 
-module.exports = { initWebSocket, notifyUser, broadcast };
+const cleanupWebSocket = () => {
+  if (keepAliveInterval) {
+    clearInterval(keepAliveInterval);
+  }
+
+  if (wss) {
+    wss.close();
+  }
+
+  clients.clear();
+};
+module.exports = { initWebSocket, notifyUser, broadcast, cleanupWebSocket };
