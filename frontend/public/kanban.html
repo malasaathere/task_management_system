@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanban Board - TaskMaster Pro</title>
+    <meta name="description" content="Collaborate on tasks, drag and drop active workflows, and track milestones on the TaskMaster Pro Kanban board.">
+    <!-- Inline auth guard -->
+    <script>
+        if (localStorage.getItem('taskmaster_logged_in') !== 'true' && 
+            sessionStorage.getItem('taskmaster_logged_in') !== 'true') {
+            window.location.href = 'login.html';
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/kanban.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation Drawer Overlay -->
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="#" class="logo-area" id="logo-dashboard-link">
+                    <svg width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="40" height="40" rx="12" fill="url(#logo-gradient)"/>
+                        <path d="M12 20L17 25L28 14" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <defs>
+                            <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#3B82F6"/>
+                                <stop offset="1" stop-color="#8B5CF6"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <span class="logo-text">TaskMaster <span class="logo-accent">Pro</span></span>
+                </a>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" id="nav-dashboard">
+                            <!-- Dashboard Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="project-management.html" class="nav-link">
+                            <!-- Projects Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+                            <span>Projects</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="tasks.html" class="nav-link">
+                            <!-- Tasks Checklist Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="m9 12 2 2 4-4"/></svg>
+                            <span>Tasks</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active">
+                            <!-- Kanban Board Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h4M9 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M9 3v18m6-18v18"/></svg>
+                            <span>Kanban Board</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="users.html" class="nav-link">
+                            <!-- Users Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                            <span>Team Members</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <!-- Chart Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
+                            <span>Reports</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="notifications.html" class="nav-link">
+                            <!-- Bell Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                            <span>Notifications</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="settings.html" class="nav-link">
+                            <!-- Settings Gear Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="nav-list sidebar-footer">
+                    <li class="nav-item">
+                        <a href="login.html" class="nav-link logout-link" id="logout-link">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="main-content">
+            <!-- Top Navigation -->
+            <header class="top-nav">
+                <div class="nav-left">
+                    <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle Navigation Sidebar">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+                    </button>
+                    <!-- Search Bar -->
+                    <div class="search-wrapper">
+                        <span class="search-icon" aria-hidden="true">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        </span>
+                        <input type="text" class="search-input" id="global-search-input" placeholder="Search tasks by title...">
+                    </div>
+                </div>
+
+                <div class="nav-right">
+                    <!-- Notification Bell -->
+                    <button class="nav-action-btn" aria-label="View notifications">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                        <span class="notification-badge"></span>
+                    </button>
+                    
+                    <!-- User Profile Area -->
+                    <div class="user-profile">
+                        <div class="profile-avatar" id="avatar-initials">JD</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Body -->
+            <div class="content-body">
+                <!-- Welcome Title Banner -->
+                <div class="welcome-banner">
+                    <div>
+                        <h1>Kanban Board</h1>
+                        <p>Drag task cards across lanes, organize backlog pipelines, and coordinate workloads.</p>
+                    </div>
+                </div>
+
+                <!-- Dashboard Summary Section -->
+                <section class="summary-grid" aria-label="Kanban Statistics Board">
+                    <!-- Total Tasks -->
+                    <div class="summary-card">
+                        <div class="summary-info">
+                            <span class="summary-label">Total Tasks</span>
+                            <span class="summary-value" id="stat-total-tasks">0</span>
+                        </div>
+                        <span class="summary-icon blue">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M9 17h6"/><path d="M9 12h6"/><path d="M9 7h6"/></svg>
+                        </span>
+                    </div>
+
+                    <!-- Tasks In Progress -->
+                    <div class="summary-card">
+                        <div class="summary-info">
+                            <span class="summary-label">In Progress</span>
+                            <span class="summary-value" id="stat-inprogress-tasks">0</span>
+                        </div>
+                        <span class="summary-icon purple">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m10 8 6 4-6 4V8z"/></svg>
+                        </span>
+                    </div>
+
+                    <!-- Completed Tasks -->
+                    <div class="summary-card">
+                        <div class="summary-info">
+                            <span class="summary-label">Completed Tasks</span>
+                            <span class="summary-value" id="stat-completed-tasks">0</span>
+                        </div>
+                        <span class="summary-icon green">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                        </span>
+                    </div>
+
+                    <!-- Overdue Tasks -->
+                    <div class="summary-card">
+                        <div class="summary-info">
+                            <span class="summary-label">Overdue Tasks</span>
+                            <span class="summary-value" id="stat-overdue-tasks">0</span>
+                        </div>
+                        <span class="summary-icon red">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+                        </span>
+                    </div>
+                </section>
+
+                <!-- Filters & Quick Actions toolbar -->
+                <div class="control-toolbar">
+                    <div class="toolbar-left">
+                        <!-- Search input box -->
+                        <div class="search-box">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                            <input type="text" id="board-search-input" placeholder="Search board card titles...">
+                        </div>
+                        
+                        <!-- Project selector filter -->
+                        <select class="select-filter" id="board-filter-project">
+                            <option value="All">All Projects</option>
+                            <option value="SaaS Platform">SaaS Platform</option>
+                            <option value="Mobile App Dev">Mobile App Dev</option>
+                            <option value="SEO Strategy">SEO Strategy</option>
+                        </select>
+                        
+                        <!-- Priority selector filter -->
+                        <select class="select-filter" id="board-filter-priority">
+                            <option value="All">All Priorities</option>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                            <option value="Critical">Critical</option>
+                        </select>
+                    </div>
+
+                    <div class="toolbar-right">
+                        <!-- Create Task -->
+                        <button class="btn btn-primary" id="btn-trigger-create-task" style="gap: 8px;">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
+                            <span>Create Task</span>
+                        </button>
+                        <!-- Assign User -->
+                        <button class="btn btn-secondary" id="btn-trigger-assign-user">Assign Task</button>
+                        <!-- Move Task / Change Status -->
+                        <button class="btn btn-secondary" id="btn-trigger-move-task">Move Task</button>
+                    </div>
+                </div>
+
+                <!-- Kanban Columns Grid -->
+                <div class="kanban-board-container">
+                    <!-- 1. To Do -->
+                    <div class="kanban-column" data-status="To Do">
+                        <div class="column-header">
+                            <div class="column-title-area">
+                                <span class="column-dot todo"></span>
+                                <h3 class="column-title">To Do</h3>
+                            </div>
+                            <span class="column-count" id="count-todo">0</span>
+                        </div>
+                        <div class="cards-deck" id="deck-todo"></div>
+                    </div>
+
+                    <!-- 2. In Progress -->
+                    <div class="kanban-column" data-status="In Progress">
+                        <div class="column-header">
+                            <div class="column-title-area">
+                                <span class="column-dot inprogress"></span>
+                                <h3 class="column-title">In Progress</h3>
+                            </div>
+                            <span class="column-count" id="count-inprogress">0</span>
+                        </div>
+                        <div class="cards-deck" id="deck-inprogress"></div>
+                    </div>
+
+                    <!-- 3. Review -->
+                    <div class="kanban-column" data-status="Review">
+                        <div class="column-header">
+                            <div class="column-title-area">
+                                <span class="column-dot review"></span>
+                                <h3 class="column-title">Review</h3>
+                            </div>
+                            <span class="column-count" id="count-review">0</span>
+                        </div>
+                        <div class="cards-deck" id="deck-review"></div>
+                    </div>
+
+                    <!-- 4. Completed -->
+                    <div class="kanban-column" data-status="Completed">
+                        <div class="column-header">
+                            <div class="column-title-area">
+                                <span class="column-dot completed"></span>
+                                <h3 class="column-title">Completed</h3>
+                            </div>
+                            <span class="column-count" id="count-completed">0</span>
+                        </div>
+                        <div class="cards-deck" id="deck-completed"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals Layout Containers -->
+    
+    <!-- 1. Create Task Modal -->
+    <div class="modal-overlay" id="modal-create-task" role="dialog" aria-modal="true" aria-labelledby="create-task-title">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title" id="create-task-title">Create New Task</h3>
+                <button class="modal-close-btn" aria-label="Close modal">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
+                </button>
+            </div>
+            <form id="form-create-task">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="create-title">Task Title</label>
+                        <input type="text" id="create-title" required placeholder="e.g. Design API Route Models">
+                    </div>
+                    <div class="form-group">
+                        <label for="create-desc">Description</label>
+                        <textarea id="create-desc" placeholder="Provide detail regarding task objectives..."></textarea>
+                    </div>
+                    <div class="form-row-2">
+                        <div class="form-group">
+                            <label for="create-project">Project</label>
+                            <select id="create-project" required>
+                                <option value="SaaS Platform">SaaS Platform</option>
+                                <option value="Mobile App Dev">Mobile App Dev</option>
+                                <option value="SEO Strategy">SEO Strategy</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="create-assignee">Assigned User</label>
+                            <select id="create-assignee" required>
+                                <option value="Jane Doe">Jane Doe</option>
+                                <option value="Alex Mercer">Alex Mercer</option>
+                                <option value="Sarah Connor">Sarah Connor</option>
+                                <option value="Mike Kowalski">Mike Kowalski</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row-2">
+                        <div class="form-group">
+                            <label for="create-priority">Priority</label>
+                            <select id="create-priority" required>
+                                <option value="Low">Low</option>
+                                <option value="Medium" selected>Medium</option>
+                                <option value="High">High</option>
+                                <option value="Critical">Critical</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="create-status">Status</label>
+                            <select id="create-status" required>
+                                <option value="To Do">To Do</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Review">Review</option>
+                                <option value="Completed">Completed</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row-2">
+                        <div class="form-group">
+                            <label for="create-start-date">Start Date</label>
+                            <input type="date" id="create-start-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="create-due-date">Due Date</label>
+                            <input type="date" id="create-due-date" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary modal-cancel-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 2. View Task Details Modal -->
+    <div class="modal-overlay" id="modal-view-task" role="dialog" aria-modal="true" aria-labelledby="view-task-title">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title" id="view-task-title">Task Board Details</h3>
+                <button class="modal-close-btn" aria-label="Close modal">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="view-detail-card">
+                    <div class="view-detail-title" id="view-task-detail-title">Task Title Placeholder</div>
+                    <div class="view-detail-desc" id="view-task-detail-desc">Task description placeholder.</div>
+                    
+                    <div class="view-detail-meta-grid">
+                        <div class="view-meta-item">
+                            <span class="view-meta-label">Task ID</span>
+                            <span class="view-meta-val" id="view-task-detail-id">TMP-1</span>
+                        </div>
+                        <div class="view-meta-item">
+                            <span class="view-meta-label">Project Scope</span>
+                            <span class="view-meta-val" id="view-task-detail-project">Project</span>
+                        </div>
+                        <div class="view-meta-item">
+                            <span class="view-meta-label">Assigned User</span>
+                            <span class="view-meta-val" id="view-task-detail-assignee">User</span>
+                        </div>
+                        <div class="view-meta-item">
+                            <span class="view-meta-label">Status</span>
+                            <span id="view-task-detail-status">Badge</span>
+                        </div>
+                        <div class="view-meta-item">
+                            <span class="view-meta-label">Priority</span>
+                            <span id="view-task-detail-priority">Badge</span>
+                        </div>
+                        <div class="view-meta-item">
+                            <span class="view-meta-label">Timeline Range</span>
+                            <span class="view-meta-val" id="view-task-detail-timeline">Jun 14, 2026 - Jun 18, 2026</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary modal-cancel-btn" style="width: 100%;">Close Details</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Assign Task Modal -->
+    <div class="modal-overlay" id="modal-assign-user" role="dialog" aria-modal="true" aria-labelledby="quick-assign-title">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title" id="quick-assign-title">Assign Task User</h3>
+                <button class="modal-close-btn" aria-label="Close modal">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
+                </button>
+            </div>
+            <form id="form-assign-user">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="assign-select-task">Select Task</label>
+                        <select id="assign-select-task" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="assign-select-member">Assignee</label>
+                        <select id="assign-select-member" required>
+                            <option value="Jane Doe">Jane Doe</option>
+                            <option value="Alex Mercer">Alex Mercer</option>
+                            <option value="Sarah Connor">Sarah Connor</option>
+                            <option value="Mike Kowalski">Mike Kowalski</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary modal-cancel-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update Assignee</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 4. Move Task / Update Status Modal -->
+    <div class="modal-overlay" id="modal-move-task" role="dialog" aria-modal="true" aria-labelledby="quick-move-title">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title" id="quick-move-title">Move Task / Update Status</h3>
+                <button class="modal-close-btn" aria-label="Close modal">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
+                </button>
+            </div>
+            <form id="form-move-task">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="move-select-task">Select Task</label>
+                        <select id="move-select-task" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="move-select-column">New Lane Status</label>
+                        <select id="move-select-column" required>
+                            <option value="To Do">To Do</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Review">Review</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary modal-cancel-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Move Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Custom JavaScript -->
+    <script src="js/kanban.js"></script>
+</body>
+</html>

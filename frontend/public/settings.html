@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Settings - TaskMaster Pro</title>
+    <meta name="description" content="Configure workspace metadata, security password lockout rules, notifications toggles, theme settings, and system backups in TaskMaster Pro.">
+    <!-- Inline auth guard -->
+    <script>
+        if (localStorage.getItem('taskmaster_logged_in') !== 'true' && 
+            sessionStorage.getItem('taskmaster_logged_in') !== 'true') {
+            window.location.href = 'login.html';
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/settings.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation Drawer Overlay -->
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="#" class="logo-area" id="logo-dashboard-link">
+                    <svg width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="40" height="40" rx="12" fill="url(#logo-gradient)"/>
+                        <path d="M12 20L17 25L28 14" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <defs>
+                            <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#3B82F6"/>
+                                <stop offset="1" stop-color="#8B5CF6"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <span class="logo-text">TaskMaster <span class="logo-accent">Pro</span></span>
+                </a>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" id="nav-dashboard">
+                            <!-- Dashboard Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="users.html" class="nav-link" id="nav-users">
+                            <!-- Users Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                            <span>Users</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="project-management.html" class="nav-link">
+                            <!-- Projects Folder Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+                            <span>Projects</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="tasks.html" class="nav-link">
+                            <!-- Tasks Checklist Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="m9 12 2 2 4-4"/></svg>
+                            <span>Tasks</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="kanban.html" class="nav-link">
+                            <!-- Kanban Board Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h4M9 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M9 3v18m6-18v18"/></svg>
+                            <span>Kanban Board</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="notifications.html" class="nav-link">
+                            <!-- Notifications Bell Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                            <span>Notifications</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <!-- Reports Chart Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
+                            <span>Reports</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="profile.html" class="nav-link">
+                            <!-- Profile Avatar Settings Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active">
+                            <!-- Settings Gear Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="nav-list sidebar-footer">
+                    <li class="nav-item">
+                        <a href="login.html" class="nav-link logout-link" id="logout-link">
+                            <!-- Logout Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="main-content">
+            <!-- Top Navigation -->
+            <header class="top-nav">
+                <div class="nav-left">
+                    <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle Navigation Sidebar">
+                        <!-- Hamburger Menu Icon -->
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+                    </button>
+                    <!-- Search Bar -->
+                    <div class="search-wrapper">
+                        <span class="search-icon" aria-hidden="true">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        </span>
+                        <input type="text" class="search-input" id="global-search-input" placeholder="Search parameters...">
+                    </div>
+                </div>
+
+                <div class="nav-right">
+                    <!-- Notification Bell -->
+                    <button class="nav-action-btn" aria-label="View notifications" onclick="window.location.href='notifications.html'">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                    </button>
+                    
+                    <!-- Admin Profile avatar info -->
+                    <div class="user-profile">
+                        <span class="top-nav-username" id="top-user-name">Alex Mercer</span>
+                        <div class="profile-avatar" id="avatar-initials">AM</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Body -->
+            <div class="content-body">
+                <!-- Welcome Title Banner -->
+                <div class="welcome-banner">
+                    <div>
+                        <h1>System Settings</h1>
+                        <p>Configure enterprise-wide environment variables, security password lockouts, visual parameters, and run backups.</p>
+                    </div>
+                </div>
+
+                <!-- Statistics Cards -->
+                <section class="stats-grid" aria-label="System Metrics Summary">
+                    <!-- Active Users -->
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-card-label">Active Users</span>
+                            <span class="stat-card-icon blue">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                            </span>
+                        </div>
+                        <div class="stat-card-value" id="stat-active-users">31</div>
+                        <div class="stat-card-detail">Online staff profiles</div>
+                    </div>
+
+                    <!-- Total Projects -->
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-card-label">Total Projects</span>
+                            <span class="stat-card-icon purple">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                            </span>
+                        </div>
+                        <div class="stat-card-value" id="stat-total-projects">18</div>
+                        <div class="stat-card-detail">Workspace repositories</div>
+                    </div>
+
+                    <!-- System Health -->
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-card-label">System Health</span>
+                            <span class="stat-card-icon green">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                            </span>
+                        </div>
+                        <div class="stat-card-value" id="stat-system-health">99.98%</div>
+                        <div class="stat-card-detail">Uptime live telemetry</div>
+                    </div>
+
+                    <!-- Security Status -->
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-card-label">Security Status</span>
+                            <span class="stat-card-icon green" id="security-health-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                            </span>
+                        </div>
+                        <div class="stat-card-value" id="stat-security-status">Secured</div>
+                        <div class="stat-card-detail" id="security-health-desc">2FA Policy Active</div>
+                    </div>
+                </section>
+
+                <!-- Core Settings Settings Container with tab select navigation -->
+                <section class="panel" aria-labelledby="settings-inbox-title">
+                    <!-- Tab selectors and actions toolbar header -->
+                    <div class="settings-header-toolbar">
+                        <h3 class="hidden" id="settings-inbox-title">System Configurations</h3>
+                        
+                        <!-- Tabs List -->
+                        <div class="tabs-selector-list" role="tablist">
+                            <button class="tab-select-btn active" role="tab" aria-selected="true" aria-controls="tab-general" id="btn-tab-general">General</button>
+                            <button class="tab-select-btn" role="tab" aria-selected="false" aria-controls="tab-user-mgmt" id="btn-tab-user">User Admin</button>
+                            <button class="tab-select-btn" role="tab" aria-selected="false" aria-controls="tab-notifications" id="btn-tab-notif">Notifications</button>
+                            <button class="tab-select-btn" role="tab" aria-selected="false" aria-controls="tab-security" id="btn-tab-security">Security</button>
+                            <button class="tab-select-btn" role="tab" aria-selected="false" aria-controls="tab-appearance" id="btn-tab-appearance">Appearance</button>
+                            <button class="tab-select-btn" role="tab" aria-selected="false" aria-controls="tab-backup" id="btn-tab-backup">Backup & Recovery</button>
+                        </div>
+
+                        <!-- Actions Toolbar -->
+                        <div class="action-btns-cell">
+                            <!-- Reset settings to default -->
+                            <button class="btn btn-secondary" id="btn-reset-settings" title="Reset all categories to defaults">Reset Defaults</button>
+                            <!-- Export Config JSON -->
+                            <button class="btn btn-secondary" id="btn-export-config" title="Download configurations JSON file">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                <span class="hide-mobile">Export</span>
+                            </button>
+                            <!-- Run System Backup -->
+                            <button class="btn btn-secondary" id="btn-backup-system" title="Create system snapshot databases backup">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-2-2h-5L12 3H5a2 2 0 0 0-2 2v11m18 0a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2m18 0H3"/></svg>
+                                <span class="hide-mobile">Backup System</span>
+                            </button>
+                            <!-- Save active Settings -->
+                            <button class="btn btn-primary" id="btn-save-settings">Save Configurations</button>
+                        </div>
+                    </div>
+
+                    <!-- Configurations Forms Panel Body -->
+                    <div class="tabs-content-wrapper">
+                        
+                        <!-- TAB 1: General Settings -->
+                        <div class="tab-panel-item active" id="tab-general" role="tabpanel" aria-labelledby="btn-tab-general">
+                            <form id="form-general">
+                                <div class="form-grid-layout">
+                                    <div class="form-group">
+                                        <label for="sys-name">System Name</label>
+                                        <input type="text" id="sys-name" required placeholder="e.g. TaskMaster Pro">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="company-name">Company Name</label>
+                                        <input type="text" id="company-name" required placeholder="e.g. Acme Corporation">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sys-timezone">Default Time Zone</label>
+                                        <select id="sys-timezone" required>
+                                            <option value="GMT-8">GMT-08:00 Pacific Time (PST)</option>
+                                            <option value="GMT">GMT+00:00 Greenwich Mean Time (GMT)</option>
+                                            <option value="GMT+1">GMT+01:00 Central European Time (CET)</option>
+                                            <option value="GMT+5:30">GMT+05:30 Indian Standard Time (IST)</option>
+                                            <option value="GMT+8">GMT+08:00 Singapore Standard Time (SGT)</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sys-language">System Default Language</label>
+                                        <select id="sys-language" required>
+                                            <option value="English">English (US)</option>
+                                            <option value="Spanish">Spanish (Español)</option>
+                                            <option value="French">French (Français)</option>
+                                            <option value="German">German (Deutsch)</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Company Logo Upload -->
+                                    <div class="form-group full-width logo-group-panel">
+                                        <span class="form-label-header">Company Logo Placement</span>
+                                        <div class="logo-selector-wrapper">
+                                            <!-- Mini logo preview container -->
+                                            <div class="logo-preview-box" id="logo-preview-box">
+                                                <svg width="24" height="24" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <rect width="40" height="40" rx="12" fill="url(#logo-gradient)"/>
+                                                    <path d="M12 20L17 25L28 14" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
+                                            </div>
+                                            <div class="logo-actions-block">
+                                                <button type="button" class="btn btn-secondary btn-sm" id="btn-upload-logo">Choose Image...</button>
+                                                <span class="logo-meta-helper">Supported formats: PNG, SVG (Max size: 2MB)</span>
+                                            </div>
+                                            <!-- Hidden File Input -->
+                                            <input type="file" id="logo-file-input" accept="image/*" style="display: none;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- TAB 2: User Management Settings -->
+                        <div class="tab-panel-item" id="tab-user-mgmt" role="tabpanel" aria-labelledby="btn-tab-user">
+                            <form id="form-user-mgmt">
+                                <div class="form-grid-layout">
+                                    <div class="form-group">
+                                        <label for="default-role">Default User Assignment Role</label>
+                                        <select id="default-role" required>
+                                            <option value="Collaborator">Collaborator</option>
+                                            <option value="Project Manager">Project Manager</option>
+                                            <option value="Admin">Admin</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="session-timeout">Active Session Timeout (Minutes)</label>
+                                        <input type="number" id="session-timeout" min="5" max="1440" required placeholder="e.g. 60">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lockout-attempts">Account Lockout Max Attempts</label>
+                                        <input type="number" id="lockout-attempts" min="3" max="20" required placeholder="e.g. 5">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lockout-duration">Lockout Cool-down (Minutes)</label>
+                                        <input type="number" id="lockout-duration" min="1" max="1440" required placeholder="e.g. 15">
+                                    </div>
+
+                                    <!-- Password Strength Policies -->
+                                    <div class="preferences-toggles-block full-width">
+                                        <span class="toggles-block-title">Password Security Policy</span>
+                                        
+                                        <div class="toggle-control-item">
+                                            <div class="toggle-info">
+                                                <span class="toggle-label">Minimum Password Length</span>
+                                                <span class="toggle-desc">Require at least N characters for new user accounts passwords.</span>
+                                            </div>
+                                            <input type="number" id="pwd-min-length" min="6" max="32" required style="width: 80px; height: 36px; padding: 4px 8px; border: 1px solid var(--border-color); border-radius: 6px;">
+                                        </div>
+
+                                        <div class="toggle-control-item">
+                                            <div class="toggle-info">
+                                                <span class="toggle-label">Require Numerical Characters</span>
+                                                <span class="toggle-desc">Passwords must contain at least one number digit (0-9).</span>
+                                            </div>
+                                            <label class="switch-control" for="pwd-require-num">
+                                                <input type="checkbox" id="pwd-require-num">
+                                                <span class="switch-slider"></span>
+                                            </label>
+                                        </div>
+
+                                        <div class="toggle-control-item">
+                                            <div class="toggle-info">
+                                                <span class="toggle-label">Require Special Characters</span>
+                                                <span class="toggle-desc">Passwords must contain at least one symbol character (e.g. @, $, !, #).</span>
+                                            </div>
+                                            <label class="switch-control" for="pwd-require-sym">
+                                                <input type="checkbox" id="pwd-require-sym">
+                                                <span class="switch-slider"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- TAB 3: Notification Settings -->
+                        <div class="tab-panel-item" id="tab-notifications" role="tabpanel" aria-labelledby="btn-tab-notif">
+                            <form id="form-notifications">
+                                <div class="form-column-layout">
+                                    <span class="toggles-block-title">System-wide Channels</span>
+                                    
+                                    <div class="toggle-control-item">
+                                        <div class="toggle-info">
+                                            <span class="toggle-label">System-wide Email Notifications</span>
+                                            <span class="toggle-desc">Allow SMTP relays to send summaries, comments, and task update emails.</span>
+                                        </div>
+                                        <label class="switch-control" for="notif-email">
+                                            <input type="checkbox" id="notif-email">
+                                            <span class="switch-slider"></span>
+                                        </label>
+                                    </div>
+
+                                    <div class="toggle-control-item">
+                                        <div class="toggle-info">
+                                            <span class="toggle-label">System-wide Push Notifications</span>
+                                            <span class="toggle-desc">Permit real-time alerts in user browser sessions.</span>
+                                        </div>
+                                        <label class="switch-control" for="notif-push">
+                                            <input type="checkbox" id="notif-push">
+                                            <span class="switch-slider"></span>
+                                        </label>
+                                    </div>
+
+                                    <div class="toggle-control-item">
+                                        <div class="toggle-info">
+                                            <span class="toggle-label">Task Reminders</span>
+                                            <span class="toggle-desc">Auto-generate notifications for upcoming and overdue checklists.</span>
+                                        </div>
+                                        <label class="switch-control" for="notif-reminders">
+                                            <input type="checkbox" id="notif-reminders">
+                                            <span class="switch-slider"></span>
+                                        </label>
+                                    </div>
+
+                                    <div class="toggle-control-item">
+                                        <div class="toggle-info">
+                                            <span class="toggle-label">Project Alerts</span>
+                                            <span class="toggle-desc">Notify project team members of milestone updates or repository changes.</span>
+                                        </div>
+                                        <label class="switch-control" for="notif-alerts">
+                                            <input type="checkbox" id="notif-alerts">
+                                            <span class="switch-slider"></span>
+                                        </label>
+                                    </div>
+
+                                    <div class="toggle-control-item">
+                                        <div class="toggle-info">
+                                            <span class="toggle-label">Broadcast System Announcements</span>
+                                            <span class="toggle-desc">Send server administration, backup gates, or lockout warnings to all users.</span>
+                                        </div>
+                                        <label class="switch-control" for="notif-announcements">
+                                            <input type="checkbox" id="notif-announcements">
+                                            <span class="switch-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- TAB 4: Security Settings -->
+                        <div class="tab-panel-item" id="tab-security" role="tabpanel" aria-labelledby="btn-tab-security">
+                            <form id="form-security">
+                                <div class="form-grid-layout">
+                                    <div class="form-group">
+                                        <label for="security-pwd-expiry">Forced Password Expiry</label>
+                                        <select id="security-pwd-expiry" required>
+                                            <option value="Never">Never Expire</option>
+                                            <option value="30">Every 30 Days</option>
+                                            <option value="60">Every 60 Days</option>
+                                            <option value="90">Every 90 Days</option>
+                                        </select>
+                                    </div>
+                                    <div style="grid-column: span 1;"></div>
+
+                                    <div class="toggle-control-item full-width">
+                                        <div class="toggle-info">
+                                            <span class="toggle-label">Require Two-Factor Authentication (2FA)</span>
+                                            <span class="toggle-desc">Force users to verify identity via authenticator app logins.</span>
+                                        </div>
+                                        <label class="switch-control" for="security-2fa">
+                                            <input type="checkbox" id="security-2fa">
+                                            <span class="switch-slider"></span>
+                                        </label>
+                                    </div>
+
+                                    <div class="toggle-control-item full-width">
+                                        <div class="toggle-info">
+                                            <span class="toggle-label">Strict IP Range Whitelisting</span>
+                                            <span class="toggle-desc">Only authorize session logins originating from secure corporate subnet ranges.</span>
+                                        </div>
+                                        <label class="switch-control" for="security-ip-whitelisting">
+                                            <input type="checkbox" id="security-ip-whitelisting">
+                                            <span class="switch-slider"></span>
+                                        </label>
+                                    </div>
+
+                                    <!-- Login History Log -->
+                                    <div class="preferences-toggles-block full-width">
+                                        <span class="toggles-block-title">Recent Login Audit Trail</span>
+                                        <div class="audit-history-list" id="security-login-logs">
+                                            <!-- Dynamic lists populated by settings.js -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- TAB 5: Appearance Settings -->
+                        <div class="tab-panel-item" id="tab-appearance" role="tabpanel" aria-labelledby="btn-tab-appearance">
+                            <form id="form-appearance">
+                                <div class="form-grid-layout">
+                                    <div class="form-group">
+                                        <label for="app-theme">Theme Preference</label>
+                                        <select id="app-theme" required>
+                                            <option value="Light">Light Mode</option>
+                                            <option value="Dark">Dark Mode</option>
+                                            <option value="System">System Default</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="app-dash-layout">Default Dashboard Layout</label>
+                                        <select id="app-dash-layout" required>
+                                            <option value="Grid">Analytics Grid</option>
+                                            <option value="List">Task Lists View</option>
+                                            <option value="Kanban">Kanban Board</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="toggle-control-item full-width">
+                                        <div class="toggle-info">
+                                            <span class="toggle-label">Force System Dark Mode</span>
+                                            <span class="toggle-desc">Toggle darker CSS sheets and dim dashboard statistics indicators.</span>
+                                        </div>
+                                        <label class="switch-control" for="app-dark-mode">
+                                            <input type="checkbox" id="app-dark-mode">
+                                            <span class="switch-slider"></span>
+                                        </label>
+                                    </div>
+
+                                    <!-- Accent color selector dots -->
+                                    <div class="form-group full-width accent-color-selector">
+                                        <span class="form-label-header" style="font-size: 13.5px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px;">Accent Color Palette</span>
+                                        <div class="color-dots-row">
+                                            <button type="button" class="color-dot blue active" data-color="Blue" aria-label="Blue accent"></button>
+                                            <button type="button" class="color-dot purple" data-color="Purple" aria-label="Purple accent"></button>
+                                            <button type="button" class="color-dot indigo" data-color="Indigo" aria-label="Indigo accent"></button>
+                                            <button type="button" class="color-dot green" data-color="Green" aria-label="Green accent"></button>
+                                        </div>
+                                        <!-- Hidden input -->
+                                        <input type="hidden" id="app-accent-color" value="Blue">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- TAB 6: Backup & Recovery Settings -->
+                        <div class="tab-panel-item" id="tab-backup" role="tabpanel" aria-labelledby="btn-tab-backup">
+                            <div class="backup-recovery-panel">
+                                <div class="form-grid-layout">
+                                    <div class="form-group">
+                                        <label for="backup-schedule">Automatic Backup Schedule</label>
+                                        <select id="backup-schedule" required>
+                                            <option value="Daily">Every 24 Hours (Daily)</option>
+                                            <option value="Weekly">Every 7 Days (Weekly)</option>
+                                            <option value="Monthly">Every Month (Monthly)</option>
+                                            <option value="Disabled">Disabled</option>
+                                        </select>
+                                    </div>
+                                    <div style="grid-column: span 1;"></div>
+
+                                    <!-- Actions Panel grids -->
+                                    <div class="backup-actions-grid full-width">
+                                        <!-- Backup Card -->
+                                        <div class="backup-action-card">
+                                            <div class="backup-card-info">
+                                                <h4 class="backup-card-title">Run Backup snapshot</h4>
+                                                <span class="backup-card-desc">Execute immediate SQL database backup and compile asset files.</span>
+                                            </div>
+                                            <button type="button" class="btn btn-primary" id="btn-run-backup-panel">Create Backup</button>
+                                        </div>
+
+                                        <!-- Export Settings -->
+                                        <div class="backup-action-card">
+                                            <div class="backup-card-info">
+                                                <h4 class="backup-card-title">Export Settings JSON</h4>
+                                                <span class="backup-card-desc">Export current configurations profile as a local settings file.</span>
+                                            </div>
+                                            <button type="button" class="btn btn-secondary" id="btn-export-panel">Export Config</button>
+                                        </div>
+
+                                        <!-- Import Settings -->
+                                        <div class="backup-action-card">
+                                            <div class="backup-card-info">
+                                                <h4 class="backup-card-title">Import Settings file</h4>
+                                                <span class="backup-card-desc">Restore configurations profile from an exported configurations file.</span>
+                                            </div>
+                                            <div class="import-block">
+                                                <button type="button" class="btn btn-secondary" id="btn-import-panel">Upload File...</button>
+                                                <input type="file" id="config-file-input" accept=".json" style="display: none;">
+                                            </div>
+                                        </div>
+
+                                        <!-- Restore defaults -->
+                                        <div class="backup-action-card border-danger">
+                                            <div class="backup-card-info">
+                                                <h4 class="backup-card-title text-danger">Reset to Defaults</h4>
+                                                <span class="backup-card-desc">Wipe settings database and restore TaskMaster Pro factory configuration.</span>
+                                            </div>
+                                            <button type="button" class="btn btn-danger" id="btn-restore-panel">Wipe Settings</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Custom JS -->
+    <script src="js/settings.js"></script>
+</body>
+</html>

@@ -31,12 +31,18 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          cache: 'npm'
-          cache-dependency-path: backend/package-lock.json
+          cache: ${{ hashFiles('backend/package-lock.json') != '' && 'npm' || '' }}
+          cache-dependency-path: ${{ hashFiles('backend/package-lock.json') != '' && 'backend/package-lock.json' || '' }}
 
       - name: Install dependencies
         working-directory: ./backend
-        run: npm ci
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
+        shell: bash
 
       - name: Wait for MySQL
         run: |

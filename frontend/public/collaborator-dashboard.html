@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collaborator Dashboard - TaskMaster Pro</title>
+    <meta name="description" content="View assigned tasks, log updates, check project progress, and participate in TaskMaster Pro workspaces.">
+    <!-- Inline auth guard -->
+    <script>
+        if (localStorage.getItem('taskmaster_logged_in') !== 'true' && 
+            sessionStorage.getItem('taskmaster_logged_in') !== 'true') {
+            window.location.href = 'login.html';
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/collaborator-dashboard.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation Drawer Overlay -->
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="#" class="logo-area">
+                    <svg width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="40" height="40" rx="12" fill="url(#logo-gradient)"/>
+                        <path d="M12 20L17 25L28 14" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <defs>
+                            <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#3B82F6"/>
+                                <stop offset="1" stop-color="#8B5CF6"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <span class="logo-text">TaskMaster <span class="logo-accent">Pro</span></span>
+                </a>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active" id="nav-dashboard">
+                            <!-- Dashboard Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="tasks.html" class="nav-link">
+                            <!-- Tasks List Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="m9 12 2 2 4-4"/></svg>
+                            <span>My Tasks</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="project-management.html" class="nav-link">
+                            <!-- Projects Folder Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+                            <span>My Projects</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="notifications.html" class="nav-link">
+                            <!-- Notification Bell Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                            <span>Notifications</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <!-- Calendar Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                            <span>Calendar</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="profile.html" class="nav-link">
+                            <!-- Profile Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="settings.html" class="nav-link">
+                            <!-- Settings Gear Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="nav-list sidebar-footer">
+                    <li class="nav-item">
+                        <a href="login.html" class="nav-link logout-link" id="logout-link">
+                            <!-- Logout Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Top Navigation Header -->
+            <header class="top-nav">
+                <div class="nav-left">
+                    <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle Navigation Sidebar">
+                        <!-- Hamburger Menu Icon -->
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+                    </button>
+                    <!-- Search Bar -->
+                    <div class="search-wrapper">
+                        <span class="search-icon" aria-hidden="true">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        </span>
+                        <input type="text" class="search-input" placeholder="Search my tasks, notes...">
+                    </div>
+                </div>
+
+                <div class="nav-right">
+                    <!-- Notification Bell -->
+                    <button class="nav-action-btn" aria-label="View notifications">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                        <span class="notification-badge"></span>
+                    </button>
+                    
+                    <!-- Profile Nav Card -->
+                    <div class="user-profile">
+                        <div class="profile-avatar" id="avatar-initials">JD</div>
+                        <div class="profile-info">
+                            <span class="profile-name" id="collaborator-name">Jane Doe</span>
+                            <span class="profile-role">Collaborator</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Body -->
+            <div class="content-body">
+                <!-- Welcome Title -->
+                <div class="welcome-banner">
+                    <h1>Collaborator Dashboard</h1>
+                    <p>Track your task updates, log progression, and view active dashboard files.</p>
+                </div>
+
+                <!-- Dashboard 6 Summary Cards -->
+                <section class="stats-grid" aria-label="Collaborator Quick Stats">
+                    <!-- Assigned Tasks -->
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-card-label">Assigned Tasks</span>
+                            <span class="stat-card-icon blue">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="M9 17h6"/><path d="M9 12h6"/><path d="M9 7h6"/></svg>
+                            </span>
+                        </div>
+                        <div class="stat-card-value" id="stat-assigned-tasks">18</div>
+                        <div class="stat-card-detail">Active allocations</div>
+                    </div>
+
+                    <!-- Completed Tasks -->
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-card-label">Completed Tasks</span>
+                            <span class="stat-card-icon green">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                            </span>
+                        </div>
+                        <div class="stat-card-value" id="stat-completed-tasks">12</div>
+                        <div class="stat-card-detail">Work finished</div>
+                    </div>
+
+                    <!-- Tasks In Progress -->
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-card-label">In Progress</span>
+                            <span class="stat-card-icon purple">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m10 8 6 4-6 4V8z"/></svg>
+                            </span>
+                        </div>
+                        <div class="stat-card-value" id="stat-inprogress-tasks">4</div>
+                        <div class="stat-card-detail">Currently editing</div>
+                    </div>
+
+                    <!-- Due Today -->
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-card-label">Due Today</span>
+                            <span class="stat-card-icon red">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                            </span>
+                        </div>
+                        <div class="stat-card-value" id="stat-due-today">1</div>
+                        <div class="stat-card-detail" style="color: var(--priority-high-color); font-weight: 500;">Action required</div>
+                    </div>
+
+                    <!-- Upcoming Deadlines -->
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-card-label">Upcoming</span>
+                            <span class="stat-card-icon yellow">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+                            </span>
+                        </div>
+                        <div class="stat-card-value" id="stat-upcoming-deadlines">3</div>
+                        <div class="stat-card-detail">Within next 7 days</div>
+                    </div>
+
+                    <!-- Notifications -->
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-card-label">Notifications</span>
+                            <span class="stat-card-icon blue">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                            </span>
+                        </div>
+                        <div class="stat-card-value" id="stat-notifications">5</div>
+                        <div class="stat-card-detail">Unread updates</div>
+                    </div>
+                </section>
+
+                <!-- Grid Columns -->
+                <div class="dashboard-grid">
+                    <!-- Left Column (Grid width span: 2) -->
+                    <div class="left-column">
+                        <!-- My Assigned Tasks Section -->
+                        <section class="panel" aria-labelledby="assigned-tasks-title">
+                            <div class="panel-header">
+                                <h2 class="panel-title" id="assigned-tasks-title">My Assigned Tasks</h2>
+                                <a href="#" class="panel-action">View Taskboard</a>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-wrapper">
+                                    <table class="custom-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Task Name</th>
+                                                <th>Priority</th>
+                                                <th>Status</th>
+                                                <th>Due Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="assigned-tasks-list">
+                                            <!-- Dynamic rows populated by Javascript -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Recent Activity Section -->
+                        <section class="panel" aria-labelledby="recent-activity-title">
+                            <div class="panel-header">
+                                <h2 class="panel-title" id="recent-activity-title">Recent Activity</h2>
+                            </div>
+                            <div class="panel-body">
+                                <div class="timeline" id="recent-activity-timeline">
+                                    <!-- Dynamic timeline items populated by Javascript -->
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- Right Column (Grid width span: 1) -->
+                    <div class="right-column">
+                        <!-- Quick Actions Panel -->
+                        <section class="panel" aria-labelledby="quick-actions-title">
+                            <div class="panel-header">
+                                <h2 class="panel-title" id="quick-actions-title">Quick Actions</h2>
+                            </div>
+                            <div class="panel-body">
+                                <div class="actions-grid">
+                                    <!-- Update Task Status -->
+                                    <button class="action-btn" id="action-btn-update-status">
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                                        <span>Update Status</span>
+                                    </button>
+                                    
+                                    <!-- Add Comment -->
+                                    <button class="action-btn" id="action-btn-add-comment">
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                                        <span>Add Comment</span>
+                                    </button>
+                                    
+                                    <!-- Upload Attachment -->
+                                    <button class="action-btn" id="action-btn-upload-file">
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+                                        <span>Upload File</span>
+                                    </button>
+                                    
+                                    <!-- View Project -->
+                                    <button class="action-btn" id="action-btn-view-project">
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                        <span>View Project</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Upcoming Deadlines -->
+                        <section class="panel" aria-labelledby="deadlines-title">
+                            <div class="panel-header">
+                                <h2 class="panel-title" id="deadlines-title">Upcoming Deadlines</h2>
+                            </div>
+                            <div class="panel-body">
+                                <div class="deadline-list" id="upcoming-deadlines-list">
+                                    <!-- Dynamic list populated by Javascript -->
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Project Participation Section -->
+                        <section class="panel" aria-labelledby="project-participation-title">
+                            <div class="panel-header">
+                                <h2 class="panel-title" id="project-participation-title">Project Participation</h2>
+                            </div>
+                            <div class="panel-body">
+                                <div class="project-list" id="project-participation-list">
+                                    <!-- Dynamic list populated by Javascript -->
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals Layout Systems -->
+    
+    <!-- 1. Update Task Status Modal -->
+    <div class="modal-overlay" id="modal-update-status" role="dialog" aria-modal="true" aria-labelledby="update-status-title">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title" id="update-status-title">Update Task Status</h3>
+                <button class="modal-close-btn" aria-label="Close modal">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
+                </button>
+            </div>
+            <form id="form-update-status">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="status-select-task">Select Task</label>
+                        <select id="status-select-task" required>
+                            <!-- Populate dynamically -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="status-select-val">New Status</label>
+                        <select id="status-select-val" required>
+                            <option value="To Do">To Do</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary modal-cancel-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Update Status</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 2. Add Comment Modal -->
+    <div class="modal-overlay" id="modal-add-comment" role="dialog" aria-modal="true" aria-labelledby="add-comment-title">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title" id="add-comment-title">Add Task Comment</h3>
+                <button class="modal-close-btn" aria-label="Close modal">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
+                </button>
+            </div>
+            <form id="form-add-comment">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="comment-select-task">Select Task</label>
+                        <select id="comment-select-task" required>
+                            <!-- Populate dynamically -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="comment-text">Comment</label>
+                        <textarea id="comment-text" required placeholder="Type your comment update here..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary modal-cancel-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit Comment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 3. Upload File Modal -->
+    <div class="modal-overlay" id="modal-upload-file" role="dialog" aria-modal="true" aria-labelledby="upload-title">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title" id="upload-title">Upload Attachment</h3>
+                <button class="modal-close-btn" aria-label="Close modal">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="upload-form-content">
+                    <div class="form-group">
+                        <label for="upload-select-project">Project Scope</label>
+                        <select id="upload-select-project" required>
+                            <!-- Populate dynamically -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="upload-file-input">Select File</label>
+                        <input type="file" id="upload-file-input" required style="padding: 6px;">
+                    </div>
+                </div>
+                <!-- Uploading progress simulation bar -->
+                <div id="upload-generating-content" class="hidden">
+                    <div class="upload-progress-container">
+                        <p id="upload-status-text">Uploading attachment to project fileboard...</p>
+                        <div class="upload-loading-bar">
+                            <div class="upload-loading-fill" id="upload-fill"></div>
+                        </div>
+                        <p style="font-size: 13px; color: var(--text-secondary)">Scanning files for security threats...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" id="upload-footer-actions">
+                <button type="button" class="btn btn-secondary modal-cancel-btn">Cancel</button>
+                <button type="button" class="btn btn-primary" id="btn-start-upload">Upload Attachment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. View Project Detail Modal -->
+    <div class="modal-overlay" id="modal-view-project" role="dialog" aria-modal="true" aria-labelledby="view-project-title">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title" id="view-project-title">Project Participation Details</h3>
+                <button class="modal-close-btn" aria-label="Close modal">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="view-select-project">Select Project</label>
+                    <select id="view-select-project" required>
+                        <!-- Populate dynamically -->
+                    </select>
+                </div>
+                <hr style="border: 0; height: 1px; background-color: var(--border-color); margin: 16px 0;">
+                <div id="project-detail-display">
+                    <h4 id="project-detail-name" style="font-size: 15px; font-weight: 700; margin-bottom: 8px;">SaaS Platform Migration</h4>
+                    <p id="project-detail-desc" style="font-size: 13.5px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 16px;">Full scale cloud migration of server components, API gateways, database indexes, and user auth directories to AWS servers.</p>
+                    <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                        <span><strong>Your Role:</strong> Contributor</span>
+                        <span><strong>Lead Manager:</strong> Alex Mercer</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary modal-cancel-btn" style="width: 100%;">Close Panel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom JS -->
+    <script src="js/collaborator-dashboard.js"></script>
+</body>
+</html>

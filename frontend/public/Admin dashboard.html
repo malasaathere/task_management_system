@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - TaskMaster Pro</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Colors matching the login design system */
+            --primary-blue: #3B82F6;
+            --primary-purple: #8B5CF6;
+            --primary-gradient: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+            --text-primary: #0F172A;
+            --text-secondary: #475569;
+            --border-color: #E2E8F0;
+            --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+        }
+        body {
+            font-family: var(--font-family);
+            background-color: #F8FAFC;
+            color: var(--text-primary);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header {
+            background-color: #FFFFFF;
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .logo-accent {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .user-nav {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .user-email {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        .logout-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            font-family: var(--font-family);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .logout-btn:hover {
+            background-color: #F1F5F9;
+            border-color: #CBD5E1;
+        }
+        main {
+            flex-grow: 1;
+            padding: 40px 32px;
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+        .welcome-section {
+            margin-bottom: 32px;
+        }
+        .welcome-section h1 {
+            font-size: 28px;
+            margin: 0 0 8px 0;
+            letter-spacing: -0.5px;
+        }
+        .welcome-section p {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        .stat-card {
+            background-color: #FFFFFF;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+        .stat-card .label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        .stat-card .value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .dashboard-content {
+            background-color: #FFFFFF;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+        }
+        .dashboard-content h2 {
+            margin-top: 0;
+            font-size: 20px;
+        }
+        .dashboard-content p {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 12px auto 24px;
+            line-height: 1.6;
+        }
+        .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            background-color: #ECFDF5;
+            color: #10B981;
+            border: 1px solid #6EE7B7;
+            font-weight: 500;
+            font-size: 13px;
+            border-radius: 100px;
+        }
+        @media (max-width: 480px) {
+            header {
+                padding: 16px;
+                flex-direction: column;
+                gap: 12px;
+                align-items: flex-start;
+            }
+            .user-nav {
+                width: 100%;
+                justify-content: space-between;
+            }
+            main {
+                padding: 24px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-area">
+            <svg width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="40" height="40" rx="12" fill="url(#logo-gradient)"/>
+                <path d="M12 20L17 25L28 14" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <defs>
+                    <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#3B82F6"/>
+                        <stop offset="1" stop-color="#8B5CF6"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+            <span class="logo-text">TaskMaster <span class="logo-accent">Pro</span></span>
+        </div>
+        <div class="user-nav">
+            <span class="user-email" id="user-email-display">user@company.com</span>
+            <button class="logout-btn" id="logout-btn">Sign Out</button>
+        </div>
+    </header>
+    <main>
+        <div class="welcome-section">
+            <h1>Welcome back, <span id="user-name-display">User</span>!</h1>
+            <p>Here's what's happening on your boards today.</p>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="label">Total Projects</div>
+                <div class="value">6</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Active Tasks</div>
+                <div class="value">14</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Tasks Completed</div>
+                <div class="value">42</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Team Members</div>
+                <div class="value">8</div>
+            </div>
+        </div>
+
+        <div class="dashboard-content">
+            <span class="badge">Session Active</span>
+            <h2>You have successfully logged in!</h2>
+            <p>This is the main administration area for TaskMaster Pro. Future updates will hook this interface up to your ASP.NET Core API server to populate real-time tasks, board items, and team collaborations.</p>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check auth state on page load
+            const isLoggedIn = localStorage.getItem('taskmaster_logged_in') === 'true' || 
+                               sessionStorage.getItem('taskmaster_logged_in') === 'true';
+            
+            if (!isLoggedIn) {
+                // If the user attempts to bypass auth, redirect them immediately to the login form
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Retrieve logged-in email and extract name prefix
+            const email = localStorage.getItem('taskmaster_user_email') || sessionStorage.getItem('taskmaster_user_email') || 'admin@taskmaster.pro';
+            document.getElementById('user-email-display').textContent = email;
+
+            const namePrefix = email.split('@')[0];
+            const formattedName = namePrefix.charAt(0).toUpperCase() + namePrefix.slice(1);
+            document.getElementById('user-name-display').textContent = formattedName;
+
+            // Handle session termination
+            document.getElementById('logout-btn').addEventListener('click', () => {
+                localStorage.removeItem('taskmaster_logged_in');
+                localStorage.removeItem('taskmaster_user_email');
+                sessionStorage.removeItem('taskmaster_logged_in');
+                sessionStorage.removeItem('taskmaster_user_email');
+                window.location.href = 'login.html';
+            });
+        });
+    </script>
+</body>
+</html>

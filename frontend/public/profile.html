@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - TaskMaster Pro</title>
+    <meta name="description" content="View assigned metrics, update designations, configure notification preference toggles, and change credentials in TaskMaster Pro.">
+    <!-- Inline auth guard -->
+    <script>
+        if (localStorage.getItem('taskmaster_logged_in') !== 'true' && 
+            sessionStorage.getItem('taskmaster_logged_in') !== 'true') {
+            window.location.href = 'login.html';
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/profile.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation Drawer Overlay -->
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="#" class="logo-area" id="logo-dashboard-link">
+                    <svg width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="40" height="40" rx="12" fill="url(#logo-gradient)"/>
+                        <path d="M12 20L17 25L28 14" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <defs>
+                            <linearGradient id="logo-gradient" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#3B82F6"/>
+                                <stop offset="1" stop-color="#8B5CF6"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <span class="logo-text">TaskMaster <span class="logo-accent">Pro</span></span>
+                </a>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" id="nav-dashboard">
+                            <!-- Dashboard Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="users.html" class="nav-link" id="nav-users">
+                            <!-- Users Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                            <span>Users</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="project-management.html" class="nav-link">
+                            <!-- Projects Folder Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>
+                            <span>Projects</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="tasks.html" class="nav-link">
+                            <!-- Tasks Checklist Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="m9 12 2 2 4-4"/></svg>
+                            <span>Tasks</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="kanban.html" class="nav-link">
+                            <!-- Kanban Board Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h4M9 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M9 3v18m6-18v18"/></svg>
+                            <span>Kanban Board</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="notifications.html" class="nav-link">
+                            <!-- Notifications Bell Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                            <span>Notifications</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <!-- Reports Chart Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
+                            <span>Reports</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active">
+                            <!-- Profile Avatar Settings Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="settings.html" class="nav-link">
+                            <!-- Settings Gear Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <ul class="nav-list sidebar-footer">
+                    <li class="nav-item">
+                        <a href="login.html" class="nav-link logout-link" id="logout-link">
+                            <!-- Logout Icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="main-content">
+            <!-- Top Navigation -->
+            <header class="top-nav">
+                <div class="nav-left">
+                    <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle Navigation Sidebar">
+                        <!-- Hamburger Menu Icon -->
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+                    </button>
+                    <!-- Search Bar -->
+                    <div class="search-wrapper">
+                        <span class="search-icon" aria-hidden="true">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        </span>
+                        <input type="text" class="search-input" id="global-search-input" placeholder="Search setting items...">
+                    </div>
+                </div>
+
+                <div class="nav-right">
+                    <!-- Notification Bell -->
+                    <button class="nav-action-btn" aria-label="View notifications" onclick="window.location.href='notifications.html'">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                    </button>
+                    
+                    <!-- Top Navigation Profile Name -->
+                    <div class="user-profile">
+                        <span class="top-nav-username" id="top-user-name">Alex Mercer</span>
+                        <div class="profile-avatar" id="avatar-initials">AM</div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Body -->
+            <div class="content-body">
+                <!-- Welcome Title Banner -->
+                <div class="welcome-banner">
+                    <div>
+                        <h1>Account Management</h1>
+                        <p>Configure personal metadata descriptors, adjust localization parameters, audit logins, and update system passwords.</p>
+                    </div>
+                </div>
+
+                <!-- Profile Overview Panel (Header & Metadata Card) -->
+                <section class="profile-header-card" aria-label="Profile Header Details">
+                    <div class="profile-header-main">
+                        <!-- Profile Image Avatar circle with camera edit hover -->
+                        <div class="profile-avatar-container">
+                            <div class="profile-header-avatar" id="header-profile-avatar">AM</div>
+                            <button class="avatar-edit-overlay" id="btn-upload-avatar" aria-label="Upload profile picture">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                            </button>
+                            <!-- Hidden File Input -->
+                            <input type="file" id="file-avatar-input" accept="image/*" style="display: none;">
+                        </div>
+
+                        <!-- Header text items -->
+                        <div class="profile-header-meta">
+                            <div class="profile-header-title-row">
+                                <h2 id="header-full-name">Alex Mercer</h2>
+                                <span class="badge status-active" id="header-status">Active</span>
+                            </div>
+                            <p class="profile-header-subtext"><span id="header-role">Admin</span> &bull; <span id="header-department">Management</span></p>
+                            
+                            <div class="profile-header-details-row">
+                                <div class="header-detail-item">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                                    <span id="header-email">alex.mercer@taskmaster.com</span>
+                                </div>
+                                <div class="header-detail-item">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                                    <span id="header-phone">+1 555-0101</span>
+                                </div>
+                                <div class="header-detail-item">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                                    <span>Joined <strong id="header-join-date">Jan 15, 2026</strong></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Header quick actions block -->
+                    <div class="profile-header-actions">
+                        <button class="btn btn-secondary" id="btn-download-profile" style="gap: 8px;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                            <span>Download Profile Data</span>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Statistics Widgets Grid -->
+                <section class="stats-grid" aria-label="Profile Statistics Summary">
+                    <!-- Assigned Tasks -->
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-card-label">Assigned Tasks</span>
+                            <span class="stat-card-icon blue">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><path d="m9 12 2 2 4-4"/></svg>
+                            </span>
+                        </div>
+                        <div class="stat-card-value" id="stat-assigned-tasks">0</div>
+                        <div class="stat-card-detail">Active checklist items</div>
+                    </div>
+
+                    <!-- Completed Tasks -->
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-card-label">Completed Tasks</span>
+                            <span class="stat-card-icon green">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                            </span>
+                        </div>
+                        <div class="stat-card-value" id="stat-completed-tasks">0</div>
+                        <div class="stat-card-detail">Marked done</div>
+                    </div>
+
+                    <!-- Active Projects -->
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-card-label">Active Projects</span>
+                            <span class="stat-card-icon purple">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                            </span>
+                        </div>
+                        <div class="stat-card-value" id="stat-active-projects">0</div>
+                        <div class="stat-card-detail">Workspace directories</div>
+                    </div>
+
+                    <!-- Productivity Score -->
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <span class="stat-card-label">Productivity Score</span>
+                            <span class="stat-card-icon yellow">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            </span>
+                        </div>
+                        <div class="stat-card-value" id="stat-productivity-score">0%</div>
+                        <div class="stat-card-detail">Velocity metric</div>
+                    </div>
+                </section>
+
+                <!-- Core Details panel with dynamic tabs -->
+                <section class="panel" aria-labelledby="settings-panel-title">
+                    <!-- Tab buttons selectors header -->
+                    <div class="tabs-header-bar">
+                        <h3 class="hidden" id="settings-panel-title">Preferences Panel</h3>
+                        <div class="tabs-selector-list" role="tablist">
+                            <button class="tab-select-btn active" role="tab" aria-selected="true" aria-controls="tab-profile-info" id="btn-tab-profile">Profile Information</button>
+                            <button class="tab-select-btn" role="tab" aria-selected="false" aria-controls="tab-security" id="btn-tab-security">Security & Passwords</button>
+                            <button class="tab-select-btn" role="tab" aria-selected="false" aria-controls="tab-preferences" id="btn-tab-preferences">Account Preferences</button>
+                            <button class="tab-select-btn" role="tab" aria-selected="false" aria-controls="tab-activity" id="btn-tab-activity">Activity History</button>
+                        </div>
+                    </div>
+
+                    <!-- Tabs body cards wrapper -->
+                    <div class="tabs-content-wrapper">
+                        
+                        <!-- TAB 1: Profile Information -->
+                        <div class="tab-panel-item active" id="tab-profile-info" role="tabpanel" aria-labelledby="btn-tab-profile">
+                            <form id="form-profile-info">
+                                <div class="form-grid-layout">
+                                    <div class="form-group">
+                                        <label for="profile-first-name">First Name</label>
+                                        <input type="text" id="profile-first-name" required placeholder="First Name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profile-last-name">Last Name</label>
+                                        <input type="text" id="profile-last-name" required placeholder="Last Name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profile-email">Email Address</label>
+                                        <input type="email" id="profile-email" required placeholder="Email Address">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profile-phone">Phone Number</label>
+                                        <input type="text" id="profile-phone" required placeholder="Phone Number">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profile-department">Department</label>
+                                        <input type="text" id="profile-department" readonly class="readonly-field" title="Departments must be adjusted by workspace admins">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="profile-designation">Designation / Role Title</label>
+                                        <input type="text" id="profile-designation" required placeholder="Designation e.g. Chief Administrator">
+                                    </div>
+                                    <div class="form-group full-width">
+                                        <label for="profile-address">Office / Contact Address</label>
+                                        <textarea id="profile-address" rows="3" required placeholder="Enter primary office coordinate address..."></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-actions-row">
+                                    <button type="submit" class="btn btn-primary">Save Profile Changes</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- TAB 2: Security & Passwords -->
+                        <div class="tab-panel-item" id="tab-security" role="tabpanel" aria-labelledby="btn-tab-security">
+                            <form id="form-profile-security">
+                                <div class="form-column-layout">
+                                    <div class="form-group">
+                                        <label for="security-current-password">Current Password</label>
+                                        <input type="password" id="security-current-password" required placeholder="••••••••">
+                                    </div>
+                                    <div class="form-row-2">
+                                        <div class="form-group">
+                                            <label for="security-new-password">New Password</label>
+                                            <input type="password" id="security-new-password" required placeholder="••••••••">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="security-confirm-password">Confirm New Password</label>
+                                            <input type="password" id="security-confirm-password" required placeholder="••••••••">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-actions-row">
+                                    <button type="submit" class="btn btn-primary">Update Security Password</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- TAB 3: Account Preferences -->
+                        <div class="tab-panel-item" id="tab-preferences" role="tabpanel" aria-labelledby="btn-tab-preferences">
+                            <form id="form-profile-preferences">
+                                <div class="form-grid-layout">
+                                    <div class="form-group">
+                                        <label for="pref-theme">Theme Preference</label>
+                                        <select id="pref-theme" required>
+                                            <option value="Light">Light Theme</option>
+                                            <option value="Dark">Dark Theme</option>
+                                            <option value="System">System Default</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="pref-language">Language Selection</label>
+                                        <select id="pref-language" required>
+                                            <option value="English">English (US)</option>
+                                            <option value="Spanish">Spanish (Español)</option>
+                                            <option value="French">French (Français)</option>
+                                            <option value="German">German (Deutsch)</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group full-width">
+                                        <label for="pref-timezone">Time Zone</label>
+                                        <select id="pref-timezone" required>
+                                            <option value="GMT-8">GMT-08:00 Pacific Standard Time (PST)</option>
+                                            <option value="GMT">GMT+00:00 Greenwich Mean Time (GMT)</option>
+                                            <option value="GMT+1">GMT+01:00 Central European Time (CET)</option>
+                                            <option value="GMT+5:30">GMT+05:30 Indian Standard Time (IST)</option>
+                                            <option value="GMT+8">GMT+08:00 Singapore Standard Time (SGT)</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Notification toggles switches -->
+                                    <div class="preferences-toggles-block full-width">
+                                        <span class="toggles-block-title">Notification Channels</span>
+                                        
+                                        <!-- Email Toggles -->
+                                        <div class="toggle-control-item">
+                                            <div class="toggle-info">
+                                                <span class="toggle-label">Email Notifications</span>
+                                                <span class="toggle-desc">Receive summaries, task allocations, and milestone updates.</span>
+                                            </div>
+                                            <label class="switch-control" for="pref-notif-email">
+                                                <input type="checkbox" id="pref-notif-email">
+                                                <span class="switch-slider"></span>
+                                            </label>
+                                        </div>
+
+                                        <!-- Push Toggles -->
+                                        <div class="toggle-control-item">
+                                            <div class="toggle-info">
+                                                <span class="toggle-label">Desktop Push Notifications</span>
+                                                <span class="toggle-desc">Receive real-time alerts for mentions and comment syncs.</span>
+                                            </div>
+                                            <label class="switch-control" for="pref-notif-push">
+                                                <input type="checkbox" id="pref-notif-push">
+                                                <span class="switch-slider"></span>
+                                            </label>
+                                        </div>
+
+                                        <!-- SMS Toggles -->
+                                        <div class="toggle-control-item">
+                                            <div class="toggle-info">
+                                                <span class="toggle-label">SMS Alerts</span>
+                                                <span class="toggle-desc">Receive mobile messages for critical server triggers or overdue items.</span>
+                                            </div>
+                                            <label class="switch-control" for="pref-notif-sms">
+                                                <input type="checkbox" id="pref-notif-sms">
+                                                <span class="switch-slider"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-actions-row">
+                                    <button type="submit" class="btn btn-primary">Save Preferences</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- TAB 4: Activity History Log -->
+                        <div class="tab-panel-item" id="tab-activity" role="tabpanel" aria-labelledby="btn-tab-activity">
+                            <div class="activity-timeline-container" id="activity-history-log">
+                                <!-- Dynamic timeline bullet entries generated by profile.js -->
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Custom JS -->
+    <script src="js/profile.js"></script>
+</body>
+</html>
