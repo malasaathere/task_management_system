@@ -183,3 +183,5 @@ async function startServer() {
 }
 
 module.exports = app;
+
+// Trigger Azure redeploy with updated PROJECT environment variable
