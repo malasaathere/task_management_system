@@ -2,7 +2,7 @@ const { Sequelize } = require('sequelize');
 require('dotenv').config();
 
 // Force Vercel bundler to include postgres drivers in the serverless build
-require('pg');
+const pg = require('pg');
 require('pg-hstore');
 
 const useSQLite = process.env.DB_DIALECT === 'sqlite';
@@ -14,6 +14,7 @@ if (process.env.DATABASE_URL) {
   const isPostgres = process.env.DATABASE_URL.startsWith('postgres://') || process.env.DATABASE_URL.startsWith('postgresql://');
   sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: isPostgres ? 'postgres' : 'mysql',
+    dialectModule: isPostgres ? pg : undefined,
     logging: process.env.NODE_ENV === 'development' ? console.log : false,
     dialectOptions: (isProduction || isPostgres) ? {
       ssl: {
@@ -37,6 +38,7 @@ if (process.env.DATABASE_URL) {
       host: process.env.DB_HOST,
       port: process.env.DB_PORT || (dialect === 'postgres' ? 5432 : 3306),
       dialect: dialect,
+      dialectModule: dialect === 'postgres' ? pg : undefined,
       logging: process.env.NODE_ENV === 'development' ? console.log : false,
       pool: {
         max: 10,
