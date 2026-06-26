@@ -22,7 +22,6 @@ const generateTokens = (user) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log('[DEBUG LOGIN] Received email:', JSON.stringify(email));
 
     const user = await User.findOne({ where: { email } });
     if (!user || !user.isActive) {
@@ -60,11 +59,10 @@ const login = async (req, res) => {
     const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
     const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 min expiry
 
-    // Log to console in dev
-    console.log(`\n==========================================`);
-    console.log(`[DEV 2FA] Email: ${email}`);
-    console.log(`[DEV 2FA] Generated 6-digit code: ${otpCode}`);
-    console.log(`==========================================\n`);
+    // Log OTP code only in non-production for debugging
+    if (process.env.NODE_ENV !== 'production') {
+      console.log(`[DEV 2FA] Email: ${email} | Code: ${otpCode}`);
+    }
 
     // Hash the OTP code
     const hashedCode = await bcrypt.hash(otpCode, 12);
@@ -96,7 +94,6 @@ const login = async (req, res) => {
 const verify2fa = async (req, res) => {
   try {
     const { email, code } = req.body;
-    console.log('[DEBUG VERIFY] Received email:', JSON.stringify(email), 'code:', JSON.stringify(code));
     if (!email || !code) {
       return res.status(400).json({ errorCode: 'VALIDATION_ERROR', message: 'Email and 2FA code are required' });
     }
