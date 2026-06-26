@@ -28,6 +28,7 @@ export default function UsersPage() {
   const [fullName, setFullName] = useState('');
   const [emailInput, setEmailInput] = useState('');
   const [roleInput, setRoleInput] = useState('Collaborator');
+  const [passwordInput, setPasswordInput] = useState('');
   const [emailError, setEmailError] = useState('');
 
   const fetchUsers = useCallback(async () => {
@@ -60,6 +61,7 @@ export default function UsersPage() {
     setFullName('');
     setEmailInput('');
     setRoleInput('Collaborator');
+    setPasswordInput('');
     setEmailError('');
     setIsModalOpen(true);
   };
@@ -109,14 +111,14 @@ export default function UsersPage() {
 
   const handleSave = async (e) => {
     e.preventDefault();
-    if (!fullName || !emailInput) {
-      showToast.error('Please fill in Name and Email fields.');
+    if (!fullName || !emailInput || (modalMode === 'create' && !passwordInput)) {
+      showToast.error('Please fill in Name, Email and Password fields.');
       return;
     }
-
+ 
     try {
       if (modalMode === 'create') {
-        await api.post('/api/users', { name: fullName, email: emailInput, role: roleInput });
+        await api.post('/api/users', { name: fullName, email: emailInput, role: roleInput, password: passwordInput });
         showToast.success(`User "${fullName}" created! Welcome email sent.`);
       } else if (modalMode === 'edit') {
         await api.put(`/api/users/${selectedUser.id}`, { name: fullName, role: roleInput });
@@ -280,8 +282,14 @@ export default function UsersPage() {
             </select>
           </div>
           {modalMode === 'create' && (
+            <div className="input-group">
+              <span className="input-label">Password *</span>
+              <input className="input-field" type="password" value={passwordInput} onChange={e => setPasswordInput(e.target.value)} required placeholder="Enter password for new user" />
+            </div>
+          )}
+          {modalMode === 'create' && (
             <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', padding: '8px 12px', background: 'rgba(74, 144, 226, 0.05)', borderRadius: '8px' }}>
-              A temporary password will be emailed to the user automatically.
+              The account credentials and password will be emailed to the user automatically.
             </p>
           )}
           {modalMode === 'edit' && (

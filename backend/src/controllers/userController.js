@@ -50,24 +50,24 @@ const getUserById = async (req, res) => {
 // POST /api/users
 const createUser = async (req, res) => {
   try {
-    const { name, email, role } = req.body;
+    const { name, email, role, password } = req.body;
 
     const existing = await User.findOne({ where: { email } });
     if (existing) {
       return res.status(400).json({ errorCode: 'EMAIL_EXISTS', message: 'Email already in use' });
     }
 
-    // Generate temp password
-    const tempPassword = crypto.randomBytes(8).toString('hex');
+    // Use provided password or generate a random fallback
+    const finalPassword = password || crypto.randomBytes(8).toString('hex');
 
     const user = await User.create({
       name, email, role,
-      password: tempPassword,
-      mustResetPassword: true,
+      password: finalPassword,
+      mustResetPassword: false, // If specified/generated, let them log in directly
     });
 
     // Send welcome email (non-blocking)
-    sendWelcomeEmail(email, name, tempPassword).catch(console.error);
+    sendWelcomeEmail(email, name, finalPassword).catch(console.error);
 
     res.status(201).json({ message: 'User created successfully', user });
   } catch (error) {

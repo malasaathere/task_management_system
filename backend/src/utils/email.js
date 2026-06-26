@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const sendWelcomeEmail = async (to, name, tempPassword) => {
+const sendWelcomeEmail = async (to, name, password) => {
   await transporter.sendMail({
     from: process.env.EMAIL_FROM,
     to,
@@ -19,8 +19,7 @@ const sendWelcomeEmail = async (to, name, tempPassword) => {
       <h2>Welcome, ${name}!</h2>
       <p>Your account has been created. Please log in with the credentials below:</p>
       <p><strong>Email:</strong> ${to}</p>
-      <p><strong>Temporary Password:</strong> ${tempPassword}</p>
-      <p><strong>You must reset your password on first login.</strong></p>
+      <p><strong>Password:</strong> ${password}</p>
       <p>Login at: ${process.env.FRONTEND_URL}/login</p>
     `,
   });
