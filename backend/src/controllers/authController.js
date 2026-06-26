@@ -55,14 +55,11 @@ const login = async (req, res) => {
       });
     }
 
-    // Generate 6-digit numeric OTP code
-    const otpCode = Math.floor(100000 + Math.random() * 900000).toString();
+    // Hardcode OTP for easier presentation/testing since email is not configured on Azure
+    let otpCode = '123456';
     const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 min expiry
 
-    // Log OTP code only in non-production for debugging
-    if (process.env.NODE_ENV !== 'production') {
-      console.log(`[DEV 2FA] Email: ${email} | Code: ${otpCode}`);
-    }
+    console.log(`[2FA] Email: ${email} | Code: ${otpCode}`);
 
     // Hash the OTP code
     const hashedCode = await bcrypt.hash(otpCode, 12);
