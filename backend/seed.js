@@ -6,7 +6,8 @@ const testUsers = [
   { name: 'Legacy Admin', email: 'admin@tms.com', password: 'Admin@1234', role: 'Admin' },
   { name: 'System Admin', email: 'tasknova.test26@gmail.com', password: 'Admin@1234', role: 'Admin' },
   { name: 'Test Manager', email: 'manager@tms.com', password: 'Manager@1234', role: 'Project Manager' },
-  { name: 'Test Collaborator', email: 'collaborator@tms.com', password: 'Collab@1234', role: 'Collaborator' },
+  { name: 'Test Collaborator', email: 'collab@tms.com', password: 'Collab@1234', role: 'Collaborator' },
+  { name: 'Test Collaborator Legacy', email: 'collaborator@tms.com', password: 'Collab@1234', role: 'Collaborator' },
 ];
 
 const seed = async () => {
